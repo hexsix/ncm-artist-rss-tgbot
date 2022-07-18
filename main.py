@@ -155,7 +155,7 @@ def redis_set(album_id: str) -> bool:
     for retry in range(5):
         logger.info(f'The {retry + 1}th attempt to set redis, 5 attempts in total.')
         try:
-            if REDIS.set(rj_code, 'sent', ex=64281600):  # expire after 2 year
+            if REDIS.set(album_id, 'sent', ex=64281600):  # expire after 2 year
                 logger.info(f'Succeed to set redis {album_id}.\n')
                 return True
         except Exception:
@@ -180,7 +180,7 @@ def main() -> None:
         # send messages
         for item in filtered_items:
             photo, caption, album_id = construct_params(item)
-            if send(CONFIGS[rss_author], photo, caption, item):
+            if send(CHAT_ID, photo, caption, item):
                 redis_set(album_id)
                 time.sleep(10)
     logger.info('============ App End ============')
