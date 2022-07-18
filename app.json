@@ -1,0 +1,30 @@
+{
+    "name": "ncm-artist-rss-tgbot",
+    "description": "A telegram bot that subscribes to your favourate artists on 163 music.",
+    "keywords": [
+        "telegram",
+        "bot",
+        "RSSHub",
+        "Music"
+    ],
+    "repository": "https://github.com/hexsix/ncm-artist-rss-tgbot",
+    "env": {
+        "CHAT_ID": {
+            "description": "Telegram channel/group id.",
+            "required": true
+        },
+        "TG_TOKEN": {
+            "description": "Telegram bot api key.",
+            "required": true
+        },
+        "CONFIGS": {
+            "description": "A json that describes subscribed artist and id on 163 music.",
+            "value": "{ \"花谱\": \"32062601\" }",
+            "required": true
+        }
+    },
+    "addons": [
+        "heroku-redis",
+        "scheduler"
+    ]
+}
