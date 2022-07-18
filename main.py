@@ -136,12 +136,10 @@ def escape(text: str) -> str:
 def construct_params(item: Dict):
     album_id = item['album_id']
     photo = item['cover']
-    caption = f'\\#{album_id}\n' \
-              f'*{escape(item["title"])}*\n' \
+    caption = f'#{album_id}\n' \
+              f'{item["title"]}\n' \
               f'\n' \
-              f'{escape(item["author"])}\n' \
-              f'\n' \
-              f'{escape(item["link"])}'
+              f'{item["link"]}'
     return photo, caption, album_id
 
 
