@@ -70,7 +70,7 @@ def parse(rss_json: Dict) -> List[Dict[str, Any]]:
             item['link'] = entry['link']
             logger.info(f'{item["link"]}')
             item['album_id'] = re.search(r'\d{4,15}', entry['link']).group()
-            item['cover'] = re.search(r'https:\/\/p1.music.126.net\/[^\"\s]*', entry['summary']).group()
+            item['cover'] = re.search(r'https:\/\/[^\"\s]*', entry['summary']).group()
             items.append(item)
         except Exception as e:
             logger.info(f'Exception: {e}')
@@ -136,8 +136,7 @@ def escape(text: str) -> str:
 def construct_params(item: Dict):
     album_id = item['album_id']
     photo = item['cover']
-    caption = f'#{album_id}\n' \
-              f'{item["title"]}\n' \
+    caption = f'{item["title"]}\n' \
               f'\n' \
               f'{item["link"]}'
     return photo, caption, album_id
