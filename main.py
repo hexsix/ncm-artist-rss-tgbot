@@ -80,6 +80,13 @@ def parse(rss_json: Dict) -> List[Dict[str, Any]]:
     return items
 
 
+def escape(text: str) -> str:
+    escape_chars = ['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!']
+    for escape_char in escape_chars:
+        text = text.replace(escape_char, '\\' + escape_char)
+    return text
+
+
 def send(chat_id: str, photo: str, caption: str, item: Dict) -> bool:
     logger.info(f'Send album: {item["title"]}, id: {item["album_id"]} ...')
     if photo:
@@ -101,8 +108,11 @@ def send(chat_id: str, photo: str, caption: str, item: Dict) -> bool:
         except Exception as e:
             logger.error(f'Exception: {e}')
             pass
-        logger.error(f'Failed to send album: {item["title"]}, id: {item["album_id"]}.\n')
-        return False
+        if send(chat_id, "", escape(caption), item):
+            return True
+        else:
+        # logger.error(f'Failed to send album: {item["title"]}, id: {item["album_id"]}.\n')
+            return False
     else:
         target = f"https://api.telegram.org/bot{TG_TOKEN}/sendMessage"
         params = {
@@ -124,13 +134,6 @@ def send(chat_id: str, photo: str, caption: str, item: Dict) -> bool:
             pass
         logger.error(f'Failed to send album: {item["title"]}, id: {item["album_id"]}.\n')
         return False
-
-
-def escape(text: str) -> str:
-    escape_chars = ['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!']
-    for escape_char in escape_chars:
-        text = text.replace(escape_char, '\\' + escape_char)
-    return text
 
 
 def construct_params(item: Dict):
