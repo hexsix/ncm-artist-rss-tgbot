@@ -140,6 +140,7 @@ def construct_params(item: Dict):
     album_id = item['album_id']
     photo = item['cover']
     caption = f'{item["title"]}\n' \
+              f'{item["published"]}\n' \
               f'\n' \
               f'{item["link"]}'
     return photo, caption, album_id
